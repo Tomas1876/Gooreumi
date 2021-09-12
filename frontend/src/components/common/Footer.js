@@ -14,14 +14,23 @@ const FooterBlock = styled.footer`
 /* 로고 */
 const LogoBox = styled.div`
     width:83px;
-    background-color:gray;
     margin-left:104px;
+    img{
+        width:90px;
+        height:32px;
+    }
+    @media screen and (max-width: 768px){
+        margin: 0 auto;
+    }
 `;
 
 /* 영업시간, 휴일, 대표번호 정보 */
 const InfoBox = styled.div`
     width:450px;
     margin-left:104px;
+    @media screen and (max-width: 768px){
+        display:none;
+    }
 `;
 
 const InfoUl = styled.ul`
@@ -41,6 +50,9 @@ const FooterMenu = styled.div`
     width:786px;
     margin-left:83px;
     display:flex;
+    @media screen and (max-width: 1124px){
+        display:none;
+    }
 `;
 
 const FooterMenuUl = styled.ul`
@@ -57,7 +69,9 @@ const FooterMenuUl = styled.ul`
 const Footer = () => {
     return (
         <FooterBlock>
-            <LogoBox></LogoBox>
+            <LogoBox>
+                <img src={require('../../images/logo.png').default} />
+            </LogoBox>
             <InfoBox>
                 <InfoUl>
                     <li>AM 10:00 - PM 05:00 Off-time PM12:00 - PM 02:00</li>

@@ -7,6 +7,9 @@ const StyledButton = styled.button`
   color:white;
   width:160px;
   height:48px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
 
   &:hover {
     background: #007DF0;
