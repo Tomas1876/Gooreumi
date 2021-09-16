@@ -32,11 +32,11 @@ const ButtonWithMargin = styled(Button)`
               border: 2px solid #DBDBDB;
               color:black;
               margin-right:40px;
-              &:hover a{
+              &:hover {
                 color:white;
               }`};
   ${props => props.blue && css`
-              height:56px;
+              height:56px; 
               margin:0;              
   `};
 `;

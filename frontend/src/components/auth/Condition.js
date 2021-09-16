@@ -53,6 +53,8 @@ const TermsField = styled.div`
         display:flex;
         height:24px;
         margin-bottom:16px;
+        font-size: 16px;
+        line-height: 20px;
         input[id='oval2']: checked + label {
             div{
                 background-color:#007DF0;
