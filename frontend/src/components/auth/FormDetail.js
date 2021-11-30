@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from '../common/Button';
+import React, { useCallback, useMemo, useState } from 'react';
 
 /* 스타일링된 input */
 const StyledInput = styled.input`
@@ -71,6 +72,13 @@ const LinkDeco = styled.span`
   ${props => props.gray && css`
                 color:#757575;
                 margin-left:30px;`};
+  ${props => props.able && css`
+              background:#007DF0;
+              color:#FFF;
+                  &:hover{
+                       background:#007DF0;
+                  }
+`}
 }
 `;
 
@@ -115,36 +123,65 @@ const textMap = {
   }
 };
 
-const FormDetail = ({ type }) => {
-  const text = textMap[type];
+const FormDetail = React.forwardRef(({ props, loginInput }) => {
 
-  return (<>
-    {type === 'login' ? (<StyledInput autoComplete='username' name='username' placeholder={text.email} />) :
+  const text = textMap[props.type];
+  const buttonColor = props.buttonColor.color;
 
-      <><StyledInput eamil autoComplete='username' name='username' placeholder={text.email} />
-        <ButtonWithMargin blue>이메일 인증</ButtonWithMargin></>}
 
-    <StyledInput autoComplete='new-password'
-      name='password'
-      placeholder='비밀번호'
-      type='password' />
-    {type === 'register' && (
-      <StyledInput autoComplete='new-password'
-        name='passwordConfirm'
-        placeholder='비밀번호 확인'
-        type='password' />
-    )}
-    {type === 'register' && (<Link to='condition'><ButtonWithMargin white>이전</ButtonWithMargin></Link>)
-    }
-    <ButtonWithMargin>{text.title}</ButtonWithMargin>
-    {type === 'login' ?
-      (<><LinkBox><LinkDeco><Link to='/condition'>회원가입</Link></LinkDeco>
-        <LinkDeco gray><Link to='/condition'>비밀번호가 기억나지 않으세요?</Link></LinkDeco></LinkBox>
-        <GoogleButton><img src={require('../../images/Google.png').default} />Google 계정으로 로그인</GoogleButton>
-      </>) :
-      (<LinkBox rgister><span>이미 계정이 있으십니까?</span><LinkDeco><Link to='/login'>로그인</Link></LinkDeco></LinkBox>)}
-  </>
+  return (
+
+    <>
+      {
+        props.type === 'login' ?
+          (<StyledInput autoComplete='username'
+            name='username'
+            onChange={props.onChange}
+            placeholder={text.email}
+            ref={loginInput} />) :
+
+          <><StyledInput eamil autoComplete='username'
+            name='username'
+            placeholder={text.email}
+            onChange={props.onChange}
+            value={props.inputs.username}
+            ref={loginInput} />
+            <ButtonWithMargin blue>이메일 인증</ButtonWithMargin></>
+      }
+
+      < StyledInput autoComplete='new-password'
+        name='password'
+        placeholder='비밀번호'
+        type='password'
+        onChange={props.onChange}
+        value={props.inputs.password}
+        ref={loginInput} />
+      {
+        props.type === 'register' && (
+          <StyledInput autoComplete='new-password'
+            name='passwordConfirm'
+            placeholder='비밀번호 확인'
+            onKeyUp={props.onChange}
+            onChange={props.onChange}
+            type='password' />
+        )
+      }
+      {
+        props.type === 'register' && (<Link to='condition'><ButtonWithMargin white>이전</ButtonWithMargin></Link>)
+      }
+      {
+        buttonColor === 'able' ? (<ButtonWithMargin able>{text.title}</ButtonWithMargin>) : (<ButtonWithMargin>{text.title}</ButtonWithMargin>)
+      }
+      {
+        props.type === 'login' ?
+          (<><LinkBox><LinkDeco able><Link to='/condition'>회원가입</Link></LinkDeco>
+            <LinkDeco gray><Link to='/condition'>비밀번호가 기억나지 않으세요?</Link></LinkDeco></LinkBox>
+            <GoogleButton><img src={require('../../images/Google.png').default} />Google 계정으로 로그인</GoogleButton>
+          </>) :
+          (<LinkBox rgister><span>이미 계정이 있으십니까?</span><LinkDeco><Link to='/login'>로그인</Link></LinkDeco></LinkBox>)
+      }
+    </>
   );
-}
+});
 
 export default FormDetail;

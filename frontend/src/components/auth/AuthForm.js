@@ -3,6 +3,7 @@ import AuthHeader from '../common/AuthHeader';
 import Footer from '../common/Footer';
 import FormDetail from './FormDetail';
 import Condition from './Condition';
+import React, { useState, useRef } from 'react';
 
 /* 회원가입 또는 로그인 폼 */
 const AuthFormBlock = styled.main` //최상위 요소에는 Block이라는 단어를 붙일 것
@@ -33,12 +34,69 @@ const textMap = {
 };
 const AuthForm = ({ type }) => {
   const text = textMap[type];
+
+  const [inputs, setInputs] = useState({
+    username: '',
+    password: '',
+    passwordConfirm: ''
+  });
+  const [color, setColor] = useState({
+    color: ''
+  });
+  const loginInput = React.createRef();
+  const { username, password } = inputs;
+
+  const onChange = e => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value.trim()
+    });
+
+    if (type === 'login') {
+      if (inputs.username != '' && inputs.password != '') {
+        setColor({
+          color: 'able'
+        });
+      } else {
+        setColor({
+          color: 'disable'
+        });
+      }
+    } else if (type === 'register') {
+
+      if (inputs.username != '' && inputs.password != '' && inputs.passwordConfirm != '') {
+        passwordCheck();
+      }
+    }
+  };
+  const passwordCheck = () => {
+    console.log(`rw ${inputs.password}`);
+    console.log(`passwordConfirm ${inputs.passwordConfirm}`);
+    if (inputs.password === inputs.passwordConfirm) {
+      setColor({
+        color: 'able'
+      });
+    } else {
+      setColor({
+        color: 'disable'
+      });
+    }
+
+  }
+  const data = {
+    type: type,
+    onChange: onChange,
+    inputs: inputs,
+    buttonColor: color
+  };
+
   return (
     <AuthFormBlock>
       <AuthHeader type={type} />
       <h3>{text.title}</h3>
       <form>
-        {type === 'login' ? (<FormDetail type={type} />) : (type === 'condition' ? (<Condition />) : (<FormDetail type={type} />))}
+        {type === 'login' ? (<FormDetail props={data} ref={loginInput} />) : (type === 'condition' ? (<Condition />) : (<FormDetail props={data} />))}
       </form>
       <Footer />
     </AuthFormBlock>

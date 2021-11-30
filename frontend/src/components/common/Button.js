@@ -25,8 +25,15 @@ ${props => props.blue && css`
                           background:#007DF0;
                           &:hover{
                             background:#007DF0;
-                            }
-                          `}
+                          }                          
+                          `};
+${props => props.able && css`
+              background:#007DF0;
+              color:#FFF;
+                  &:hover{
+                       background:#007DF0;
+                  }
+  `};
 `;
 
 
